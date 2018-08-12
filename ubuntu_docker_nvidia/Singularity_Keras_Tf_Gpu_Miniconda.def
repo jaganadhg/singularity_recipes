@@ -1,0 +1,25 @@
+Bootstrap: docker
+From: nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04
+
+%post
+    apt-get -y update
+    apt-get -y install fortune cowsay lolcat wget
+    wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+    chmod +x Miniconda2-latest-Linux-x86_64.sh
+    bash Miniconda2-latest-Linux-x86_64.sh -b -p /usr/local/anaconda
+    export PATH="/usr/local/anaconda/bin:$PATH"
+    conda install tensorflow-gpu keras pandas scikit-learn ipython
+    rm -rf Miniconda2-latest-Linux-x86_64.sh
+
+%environment
+    export LC_ALL=C
+    export PATH="/usr/local/anaconda/bin:$PATH"
+
+%runscript
+    exec python "$@"
+
+%apprun python
+    exec python '@'
+
+%apprun ipython
+    exec ipython
