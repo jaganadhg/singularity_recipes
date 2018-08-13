@@ -8,13 +8,13 @@ All the recipes based on docker images (Ubuntu) included in the directory ubuntu
 
 ## Build Centos/Fedora containers from Ubuntu/Debian
 If we have to create Centos/Fedora containers from Ubuntu host;
-1) Install yum 'sudo apt-get install yum'
-2) Create a file '/root/.rpmmacros' .
+1) Install yum ```sudo apt-get install yum```
+2) Create a file ```/root/.rpmmacros``` .
 Add the following content to the file
-'
+```bash
 %_var /var
 %_dbpath %{_var}/lib/rpm
-'
+```
 Save and close the file. 
 
 Now we can start building Centos/Fedora containers from Ubuntu
