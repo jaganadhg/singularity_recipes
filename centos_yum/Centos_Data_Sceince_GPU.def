@@ -1,0 +1,33 @@
+Bootstrap: yum
+
+OSVersion: 7
+
+MirrorURL: http://mirror.centos.org/centos-%{OSVERSION}/%{OSVERSION}/os/$basearch/
+
+Include: yum
+
+%post
+    yum install -y tar.x86_64 bzip2 wget
+    wget https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh
+    chmod +x Anaconda3-5.2.0-Linux-x86_64.sh
+    bash Anaconda3-5.2.0-Linux-x86_64.sh -b -p /usr/local/anaconda
+    export PATH="/usr/local/anaconda/bin:$PATH"
+    conda install -y pip cython joblib setuptools
+    conda install -y tensorflow-gpu keras pandas scikit-learn ipython py-xgboost-gpu matplotlib scikit-image
+    conda install -y statsmodels
+    pip install pip -U 
+    rm -rf Anaconda3-5.2.0-Linux-x86_64.sh
+    conda clean -a -y
+
+%environment
+    export LC_ALL=C
+    export PATH="/usr/local/anaconda/bin:$PATH"
+
+%runscript
+    exec python "$@"
+
+%apprun python
+    exec python '@'
+
+%apprun ipython
+    exec ipython
